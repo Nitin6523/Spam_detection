@@ -1,8 +1,14 @@
 import pickle
 import string
+from flask import Flask,request,render_template
+import numpy as np
+import pandas as pd
 from nltk.corpus import stopwords
 import nltk
 from nltk.stem.porter import PorterStemmer
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 
 ps = PorterStemmer()
 
@@ -31,5 +37,31 @@ def transform_text(text):
 
     return " ".join(y)
 
-tfidf = pickle.load(open('vectorizer.pkl','rb'))
+tfdf= pickle.load(open('vectorizer_tf.pkl','rb'))
 model = pickle.load(open('model.pkl','rb'))
+
+app=Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html') 
+
+@app.route('/predict', methods=['GET','POST'])
+def predict():
+    if request.method=='GET':
+        return render_template('home.html')
+    else:
+        data = request.form['message']
+        print(data)
+        df=transform_text(data)
+        print(df)
+        df=[df]
+        vect=tfdf.transform(df)
+        print(vect)
+        pred=model.predict(vect)
+        print("prediction is",pred)
+        return render_template('home.html',prediction=pred) 
+
+
+if __name__=="__main__":
+    app.run(debug=True)
