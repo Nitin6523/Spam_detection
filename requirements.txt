@@ -1,6 +1,5 @@
 asttokens==2.2.1
 backcall==0.2.0
-certifi @ file:///C:/ci_311/certifi_1676421629969/work/certifi
 click==8.1.3
 colorama==0.4.6
 comm==0.1.2
