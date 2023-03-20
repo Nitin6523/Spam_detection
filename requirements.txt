@@ -48,3 +48,4 @@ wcwidth==0.2.6
 Werkzeug==2.2.3
 wincertstore==0.2
 nltk
+gunicorn
